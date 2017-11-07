@@ -6,6 +6,7 @@ release:
   name_template: '{{.Tag}}'
 brew:
   description: "CLI tool for GitLab, like hub"
+  homepage: "https://github.com/zaquestion/lab"
   github:
     owner: jnv
     name: homebrew-tap
@@ -13,6 +14,15 @@ brew:
     name: goreleaserbot
     email: goreleaser@carlosbecker.com
   install: bin.install "lab"
+  test: |
+    system "git", "init"
+    %w[haunted house].each { |f| touch testpath/f }
+    system "git", "add", "haunted", "house"
+    system "git", "commit", "-a", "-m", "Initial Commit"
+    system "git", "config", "--local", "--add", "gitlab.host", "http://example.com"
+    system "git", "config", "--local", "--add", "gitlab.user", "test"
+    system "git", "config", "--local", "--add", "gitlab.token", "test"
+    assert_equal "haunted\nhouse", shell_output("#{bin}/lab ls-files").strip
 builds:
 - goos:
   - linux
