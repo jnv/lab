@@ -1,12 +1,10 @@
-language: go
+dist: trusty
+sudo: false
 
 go:
   - 1.9
 
 go_import_path: github.com/zaquestion/lab
-
-# use containers which run faster and have cache
-sudo: false
 
 script:
   - go test ./...
